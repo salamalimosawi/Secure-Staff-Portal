@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Restaurant Staff Portal{% endblock %}
+
+{% block content %}
+<section class="panel narrow">
+    <h2>Login</h2>
+    <p>Use the seeded accounts to get started:</p>
+    <ul>
+        <li><strong>Admin:</strong> <code>admin / admin123</code></li>
+        <li><strong>Staff:</strong> <code>staff / staff123</code></li>
+    </ul>
+
+    <form method="post" class="stack">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+        <label for="username">Username</label>
+        <input id="username" name="username" type="text" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required>
+
+        <button type="submit">Sign in</button>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Orders | Restaurant Staff Portal{% endblock %}
+
+{% block content %}
+<section class="grid">
+    <article class="panel">
+        <h2>Create Order</h2>
+        <form method="post" class="stack">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+
+            <label for="customer_name">Customer name</label>
+            <input id="customer_name" name="customer_name" type="text" required>
+
+            <label for="item_id">Menu item</label>
+            <select id="item_id" name="item_id" required>
+                <option value="">Choose an item</option>
+                {% for item in items %}
+                    <option value="{{ item.id }}">{{ item.name }} - ${{ "%.2f"|format(item.price) }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="quantity">Quantity</label>
+            <input id="quantity" name="quantity" type="number" min="1" value="1" required>
+
+            <button type="submit">Save order</button>
+        </form>
+    </article>
+
+    <article class="panel">
+        <h2>Recent Orders</h2>
+        {% if orders %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Customer</th>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Created By</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                        <tr>
+                            <td>{{ order.id }}</td>
+                            <td>{{ order.customer_name }}</td>
+                            <td>{{ order.item_name }}</td>
+                            <td>{{ order.quantity }}</td>
+                            <td>{{ order.created_by }}</td>
+                            <td><a href="{{ url_for('order_detail', order_id=order.id) }}">Open</a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No orders have been created yet.</p>
+        {% endif %}
+
+        {% if g.user.role != 'admin' %}
+            <p class="hint">Staff can only view orders they created. Admins can view every order.</p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Order Detail | Restaurant Staff Portal{% endblock %}
+
+{% block content %}
+<section class="panel narrow">
+    <h2>Order #{{ order.id }}</h2>
+    <dl class="detail-list">
+        <div>
+            <dt>Customer</dt>
+            <dd>{{ order.customer_name }}</dd>
+        </div>
+        <div>
+            <dt>Menu Item</dt>
+            <dd>{{ order.item_name }}</dd>
+        </div>
+        <div>
+            <dt>Quantity</dt>
+            <dd>{{ order.quantity }}</dd>
+        </div>
+        <div>
+            <dt>Created By</dt>
+            <dd>{{ order.created_by }}</dd>
+        </div>
+        <div>
+            <dt>Created At</dt>
+            <dd>{{ order.created_at }}</dd>
+        </div>
+    </dl>
+    <a class="button-link" href="{{ url_for('orders') }}">Back to orders</a>
+</section>
+{% endblock %}

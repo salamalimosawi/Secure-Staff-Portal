@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Menu | Restaurant Staff Portal{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h2>Menu</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>{{ item.name }}</td>
+                    <td>${{ "%.2f"|format(item.price) }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

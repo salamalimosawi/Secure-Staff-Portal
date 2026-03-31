@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Admin | Restaurant Staff Portal{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h2>Admin Area</h2>
+    <p>This page is restricted to administrators and is useful for demonstrating route protection.</p>
+
+    <div class="stats-grid">
+        <article class="stat-card compact">
+            <span class="stat-value">{{ security_metrics.failed_logins_24h }}</span>
+            <span class="stat-label">Failed logins (24h)</span>
+        </article>
+        <article class="stat-card compact">
+            <span class="stat-value">{{ security_metrics.denied_actions_24h }}</span>
+            <span class="stat-label">Denied actions (24h)</span>
+        </article>
+        <article class="stat-card compact">
+            <span class="stat-value">{{ security_metrics.total_orders }}</span>
+            <span class="stat-label">Orders recorded</span>
+        </article>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Last Login</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.last_login_at or 'Never' }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="panel">
+    <h2>Recent Audit Logs</h2>
+    <p>These records support accountability and let you trace sensitive actions in the app.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Actor</th>
+                <th>Action</th>
+                <th>Target</th>
+                <th>Result</th>
+                <th>IP</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td>{{ log.actor }}</td>
+                    <td>{{ log.action }}</td>
+                    <td>{{ log.target }}</td>
+                    <td>{{ log.result }}</td>
+                    <td>{{ log.ip_address }}</td>
+                    <td>{{ log.created_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<section class="panel">
+    <h2>Recent Failed Login Attempts</h2>
+    <p>These events support a brute-force or credential-stuffing discussion in the report.</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>IP</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attempt in failed_logins %}
+                <tr>
+                    <td>{{ attempt.username }}</td>
+                    <td>{{ attempt.ip_address }}</td>
+                    <td>{{ attempt.attempted_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

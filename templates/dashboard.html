@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Restaurant Staff Portal{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h2>Dashboard</h2>
+    <p>Signed in as <strong>{{ g.user.username }}</strong> with the <strong>{{ g.user.role }}</strong> role.</p>
+
+    <div class="stats-grid">
+        <article class="stat-card">
+            <span class="stat-value">{{ stats.menu_count }}</span>
+            <span class="stat-label">Menu items</span>
+        </article>
+        <article class="stat-card">
+            <span class="stat-value">{{ stats.order_count }}</span>
+            <span class="stat-label">Orders placed</span>
+        </article>
+    </div>
+
+    <div class="actions">
+        <a class="button-link" href="{{ url_for('menu') }}">View menu</a>
+        <a class="button-link" href="{{ url_for('orders') }}">Create order</a>
+        {% if g.user.role == 'admin' %}
+            <a class="button-link secondary" href="{{ url_for('admin') }}">Open admin area</a>
+        {% endif %}
+    </div>
+</section>
+
+<section class="grid">
+    <article class="panel">
+        <h2>Security Overview</h2>
+        <div class="stats-grid">
+            <article class="stat-card compact">
+                <span class="stat-value">{{ security_metrics.successful_logins_24h }}</span>
+                <span class="stat-label">Successful logins (24h)</span>
+            </article>
+            <article class="stat-card compact">
+                <span class="stat-value">{{ security_metrics.failed_logins_24h }}</span>
+                <span class="stat-label">Failed logins (24h)</span>
+            </article>
+            <article class="stat-card compact">
+                <span class="stat-value">{{ security_metrics.denied_actions_24h }}</span>
+                <span class="stat-label">Denied actions (24h)</span>
+            </article>
+        </div>
+        <p class="hint">These metrics make the app easier to discuss in terms of accountability, detection, and abuse visibility.</p>
+    </article>
+
+    <article class="panel">
+        <h2>Implemented Controls</h2>
+        <ul class="control-list">
+            <li>Password hashing with Werkzeug plus seeded least-privilege roles</li>
+            <li>CSRF protection on state-changing forms</li>
+            <li>Session timeout after {{ session_minutes }} minutes of inactivity</li>
+            <li>Order ownership checks to prevent IDOR-style access</li>
+            <li>Audit logging for login, admin access, and sensitive order views</li>
+            <li>Recommended minimum password length: {{ password_length }} characters</li>
+        </ul>
+    </article>
+</section>
+{% endblock %}
