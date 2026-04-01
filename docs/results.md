@@ -44,9 +44,3 @@ The GitHub Actions security workflow completed successfully after the checkout c
 ## Gitleaks Note
 
 The initial Gitleaks failure was caused by GitHub Actions checkout depth rather than a real secret leak. After updating the workflow to fetch full history with `fetch-depth: 0`, the Gitleaks step completed successfully.
-
-## Reflection Prompts
-
-- Which controls reduced likelihood versus impact?
-- Which findings were true positives versus noisy?
-- Which controls are preventive, detective, or corrective?
