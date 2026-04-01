@@ -199,9 +199,12 @@ def create_app(test_config=None):
     @app.route("/dashboard")
     @login_required
     def dashboard():
+        visible_orders = get_orders_for_user(
+            app.config["DATABASE"], g.user["username"], g.user["role"]
+        )
         stats = {
             "menu_count": len(get_menu_items(app.config["DATABASE"])),
-            "order_count": len(get_all_orders(app.config["DATABASE"])),
+            "order_count": len(visible_orders),
         }
         security_metrics = get_security_metrics(app.config["DATABASE"])
         return render_template(

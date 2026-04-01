@@ -198,3 +198,42 @@ def test_successful_login_updates_admin_visibility(tmp_path):
 
     assert response.status_code == 200
     assert b"Last Login" in response.data
+
+
+def test_staff_dashboard_shows_only_staff_order_count(tmp_path):
+    app = build_test_app(tmp_path)
+    client = app.test_client()
+
+    login(client, "staff", "staff123")
+    token = fetch_csrf_token(client, "/orders")
+    client.post(
+        "/orders",
+        data={
+            "customer_name": "Amina",
+            "item_id": "1",
+            "quantity": "2",
+            "csrf_token": token,
+        },
+        follow_redirects=True,
+    )
+    client.get("/logout", follow_redirects=True)
+
+    login(client, "admin", "admin123")
+    token = fetch_csrf_token(client, "/orders")
+    client.post(
+        "/orders",
+        data={
+            "customer_name": "Bilal",
+            "item_id": "2",
+            "quantity": "1",
+            "csrf_token": token,
+        },
+        follow_redirects=True,
+    )
+    client.get("/logout", follow_redirects=True)
+
+    response = login(client, "staff", "staff123")
+
+    assert response.status_code == 200
+    assert b"Orders placed" in response.data
+    assert b">1<" in response.data
