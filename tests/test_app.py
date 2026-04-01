@@ -56,6 +56,17 @@ def test_staff_user_can_log_in_and_see_dashboard(tmp_path):
     assert response.status_code == 200
     assert b"Signed in as" in response.data
     assert b"staff" in response.data
+    assert b"Implemented Controls" not in response.data
+
+
+def test_admin_user_sees_security_sections_on_dashboard(tmp_path):
+    app = build_test_app(tmp_path)
+    client = app.test_client()
+
+    response = login(client, "admin", "admin123")
+
+    assert response.status_code == 200
+    assert b"Security Overview" in response.data
     assert b"Implemented Controls" in response.data
 
 

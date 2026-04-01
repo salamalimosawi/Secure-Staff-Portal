@@ -27,36 +27,38 @@
     </div>
 </section>
 
-<section class="grid">
-    <article class="panel">
-        <h2>Security Overview</h2>
-        <div class="stats-grid">
-            <article class="stat-card compact">
-                <span class="stat-value">{{ security_metrics.successful_logins_24h }}</span>
-                <span class="stat-label">Successful logins (24h)</span>
-            </article>
-            <article class="stat-card compact">
-                <span class="stat-value">{{ security_metrics.failed_logins_24h }}</span>
-                <span class="stat-label">Failed logins (24h)</span>
-            </article>
-            <article class="stat-card compact">
-                <span class="stat-value">{{ security_metrics.denied_actions_24h }}</span>
-                <span class="stat-label">Denied actions (24h)</span>
-            </article>
-        </div>
-        <p class="hint">These metrics make the app easier to discuss in terms of accountability, detection, and abuse visibility.</p>
-    </article>
+{% if g.user.role == 'admin' %}
+    <section class="grid">
+        <article class="panel">
+            <h2>Security Overview</h2>
+            <div class="stats-grid">
+                <article class="stat-card compact">
+                    <span class="stat-value">{{ security_metrics.successful_logins_24h }}</span>
+                    <span class="stat-label">Successful logins (24h)</span>
+                </article>
+                <article class="stat-card compact">
+                    <span class="stat-value">{{ security_metrics.failed_logins_24h }}</span>
+                    <span class="stat-label">Failed logins (24h)</span>
+                </article>
+                <article class="stat-card compact">
+                    <span class="stat-value">{{ security_metrics.denied_actions_24h }}</span>
+                    <span class="stat-label">Denied actions (24h)</span>
+                </article>
+            </div>
+            <p class="hint">These metrics make the app easier to discuss in terms of accountability, detection, and abuse visibility.</p>
+        </article>
 
-    <article class="panel">
-        <h2>Implemented Controls</h2>
-        <ul class="control-list">
-            <li>Password hashing with Werkzeug plus seeded least-privilege roles</li>
-            <li>CSRF protection on state-changing forms</li>
-            <li>Session timeout after {{ session_minutes }} minutes of inactivity</li>
-            <li>Order ownership checks to prevent IDOR-style access</li>
-            <li>Audit logging for login, admin access, and sensitive order views</li>
-            <li>Recommended minimum password length: {{ password_length }} characters</li>
-        </ul>
-    </article>
-</section>
+        <article class="panel">
+            <h2>Implemented Controls</h2>
+            <ul class="control-list">
+                <li>Password hashing with Werkzeug plus seeded least-privilege roles</li>
+                <li>CSRF protection on state-changing forms</li>
+                <li>Session timeout after {{ session_minutes }} minutes of inactivity</li>
+                <li>Order ownership checks to prevent IDOR-style access</li>
+                <li>Audit logging for login, admin access, and sensitive order views</li>
+                <li>Recommended minimum password length: {{ password_length }} characters</li>
+            </ul>
+        </article>
+    </section>
+{% endif %}
 {% endblock %}

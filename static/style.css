@@ -4,34 +4,43 @@
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f5f1ea;
-    color: #1f2933;
+    font-family: "Avenir", sans-serif;
+    background: #ffffff;
+    color: #000000;
 }
 
 .site-header {
-    background: #173f35;
+    background: #392828;
     color: #f8fafc;
     padding: 1.5rem 2rem;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: baseline;
     gap: 2rem;
 }
 
-.site-header h1,
-.site-header p {
+.site-header h1 {
     margin: 0;
+    font-size: 2.15rem;
+    line-height: 1;
 }
+
+.brand h1 {
+    font-family: "Gill Sans", serif;
+}
+
 
 .site-header nav {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
+    align-items: center;
+    position: relative;
+    top: -3px;
 }
 
 .site-header a {
-    color: #f8fafc;
+    color: #ffffff;
     text-decoration: none;
     font-weight: 600;
 }
@@ -75,7 +84,7 @@ button {
 
 button,
 .button-link {
-    background: #d96c3d;
+    background: #630404;
     color: #ffffff;
     border: none;
     text-decoration: none;
@@ -91,7 +100,7 @@ button,
 }
 
 .button-link.secondary {
-    background: #355c7d;
+    background: #630404;
 }
 
 .actions {
@@ -109,10 +118,10 @@ button,
 }
 
 .stat-card {
-    background: #fff7ed;
+    background: #ece5e5;
     padding: 1rem;
     border-radius: 12px;
-    border: 1px solid #fed7aa;
+    border: 1px solid #7e6969;
 }
 
 .stat-card.compact {

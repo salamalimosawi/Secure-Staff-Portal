@@ -57,6 +57,9 @@ def init_db(database_path):
             """
         )
 
+        ensure_schema_updates(connection)
+        migrate_plaintext_passwords(connection)
+
         user_count = connection.execute("SELECT COUNT(*) FROM users").fetchone()[0]
         if user_count == 0:
             connection.executemany(
@@ -77,6 +80,31 @@ def init_db(database_path):
                     ("Caesar Salad", 9.75),
                     ("Fresh Lemonade", 4.25),
                 ],
+            )
+
+
+def ensure_schema_updates(connection):
+    user_columns = {
+        row["name"] for row in connection.execute("PRAGMA table_info(users)").fetchall()
+    }
+    if "last_login_at" not in user_columns:
+        try:
+            connection.execute(
+                "ALTER TABLE users ADD COLUMN last_login_at TIMESTAMP"
+            )
+        except sqlite3.OperationalError as error:
+            if "duplicate column name" not in str(error):
+                raise
+
+
+def migrate_plaintext_passwords(connection):
+    users = connection.execute("SELECT id, password FROM users").fetchall()
+    for user in users:
+        password = user["password"]
+        if not password.startswith(("pbkdf2:", "scrypt:")):
+            connection.execute(
+                "UPDATE users SET password = ? WHERE id = ?",
+                (generate_password_hash(password), user["id"]),
             )
 
 
