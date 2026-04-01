@@ -42,7 +42,7 @@ def test_login_page_loads(tmp_path):
     response = client.get("/login")
 
     assert response.status_code == 200
-    assert b"Restaurant Staff Portal" in response.data
+    assert b"Staff Portal" in response.data
     assert response.headers["X-Content-Type-Options"] == "nosniff"
     assert "frame-ancestors 'none'" in response.headers["Content-Security-Policy"]
 

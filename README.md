@@ -24,19 +24,22 @@ The goal is to show how a small web application can be improved with security co
 
 ## Local Setup
 
-1. Activate the virtual environment:
+1. Create and activate a virtual environment:
+   `python3 -m venv .venv`
    `source .venv/bin/activate`
 2. Install dependencies:
+   `python3 -m pip install --upgrade pip`
    `python3 -m pip install -r requirements.txt`
 3. Start the app:
    `python3 app.py`
-4. Open `http://127.0.0.1:5000`
+4. Open `http://127.0.0.1:8000`
 
 Optional environment variables:
 
 - `FLASK_SECRET_KEY`: set a stable secret for local development
 - `FLASK_DEBUG=1`: enable Flask debug mode explicitly
 - `FLASK_SECURE_COOKIE=1`: mark session cookies as secure for HTTPS deployments
+- `PORT=8000`: override the local port if needed
 
 ## Test and Scan Commands
 
@@ -45,6 +48,8 @@ Optional environment variables:
 - `semgrep scan --config auto .`
 - `python3 -m pip_audit -r requirements.txt`
 - `gitleaks dir .`
+
+Note: `gitleaks` is installed separately from `pip` on many systems, for example with `brew install gitleaks` on macOS.
 
 ## Project Layout
 
@@ -68,4 +73,4 @@ Optional environment variables:
 - screenshot of a GitHub Actions run
 - one failed security scan example and the later fix
 - short discussion of why each tool was included
-- the threat model in [`docs/threat_model.md`](/Users/susu/Mine/Uni/Cyber/Project/docs/threat_model.md)
+- the threat model in `docs/threat_model.md`
